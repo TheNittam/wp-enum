@@ -1,5 +1,4 @@
-#/!python
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import json
 import requests
@@ -25,30 +24,33 @@ time.sleep(.2)
 
 def start():
 		print("%s______________________________________________________________________" %(B))
-		url = input("\n%s Target Site : %s" %(B, G))
+		url = input(r"%s Target Site : %s" %(B, G))
 
 		r = requests.get(url+"/wp-json/wp/v2/users")
+		# print(r.url)
 		data = r.text
 		output = json.loads(data)
 
 		print ("\n\n%s_______________________| %sGrabbed Information%s |________________________%s\n\t\t" %(B, G, B, G))
 
-		for loop in output:
-
-			print ("\n >>\033[94m Name         :\033[92m ", loop["name"])
-			print (" >>\033[94m Username     :\033[92m ", loop["slug"] ,"\033[91m(Possible Username!!!)\033[92m")
-			pic = (loop["avatar_urls"]["96"]).replace("?s=96","?s=1000")
-			print (" >>\033[94m User Photo   : \033[92m "+pic)
-			print (" >>\033[94m User ID      :\033[92m ", loop["id"])
-			print (" >>\033[94m Url          :\033[92m ", loop["url"])
-			print (" >>\033[94m Description  :\033[92m ", loop["description"])
-			print ("\n")
+		if "rest_user_cannot_view" in r.text :
+			print(output["message"])
+		else:
+			for loop in output:
+				print (">>\033[94m Name         :\033[92m ", loop["name"])
+				print (" >>\033[94m Username     :\033[92m ", loop["slug"] ,"\033[91m(Possible Username!!!)\033[92m")
+				pic = (loop["avatar_urls"]["96"]).replace("?s=96","?s=1000")
+				print (" >>\033[94m User Photo   : \033[92m "+pic)
+				print (" >>\033[94m User ID      :\033[92m ", loop["id"])
+				print (" >>\033[94m Url          :\033[92m ", loop["url"])
+				print (" >>\033[94m Description  :\033[92m ", loop["description"])
+				print ("\n")
 
 		print ("%s_________________________| %sScan Complete!!!%s |_________________________" %(B, G, B))
 
 while True:
 		switch = input("\n%s Continue / Exit (C/E) : " %(R ))
-		
+	
 		if (switch == 'C' or switch == 'c'):
 				start()
 
@@ -63,7 +65,7 @@ while True:
 				time.sleep(1.5)
 				os.system("clear")
 				exit()
-
+# start()
 		else:
 			print ("""\n%s______________________________________________________________________
 		                                         
